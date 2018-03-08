@@ -707,6 +707,16 @@ abstract class BaseRepository implements RepositoryInterface, RepositoryCriteria
 
         return $deleted;
     }
+    
+    /**
+     * @return array
+     */
+    public function deleted()
+    {
+        $deleted = $this->model->onlyTrashed();
+        event(new RepositoryEntityDeleted($this, $this->model->getModel()));
+        return $deleted;
+    }
 
     /**
      * Check if entity has relation
